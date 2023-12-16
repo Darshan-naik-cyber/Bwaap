@@ -1,0 +1,19 @@
+# Use a base image with Apache and PHP
+FROM php:7.4-apache
+
+# Set the working directory
+WORKDIR /var/www/html
+
+# Clone bWAPP from GitHub
+RUN apt-get update && \
+    apt-get install -y git && \
+    git clone https://github.com/lmoroz/bWAPP.git .
+
+# Change permissions to allow Apache to write to the "images" directory
+RUN chown -R www-data:www-data images
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache in the foreground
+CMD ["apache2-foreground"]
